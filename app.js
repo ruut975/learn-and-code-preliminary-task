@@ -8,8 +8,8 @@ Function.prototype.method = function (name, func) {
 
 // adding new method to the String proptotype
 String.method('titleCase', function () {
-    var splitStr = this.toLowerCase().split(' ');
-    for (var i = 0; i < splitStr.length; i++) {
+    let splitStr = this.toLowerCase().split(' ');
+    for (let i = 0; i < splitStr.length; i++) {
         // Assign modified string back to the array of strings
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
     }
@@ -140,15 +140,10 @@ It's enough to make this function work with the
 'persons' array above. You don't have to consider or defend
 against any other type of names. */
 const findByFirstName = (firstname) => {
-    let sortedPersons = [];
-    persons.forEach(person => {
-        if (person.name.includes(firstname)) {
-            sortedPersons.push(person);
-        }; 
-    });
-    console.log( `All persons with first name ${firstname} are:`, sortedPersons);
+    filteredByName = persons.filter(person => person.name.includes(firstname));
+    console.log( `All persons with first name ${firstname} are:`, filteredByName);
     
-    return sortedPersons;
+    return filteredByName;
 };
 /*
 Should return the users age.
@@ -161,7 +156,7 @@ const getPersonAge = birthday => {
     birthday = new Date(birthday);
     const now = new Date();
     const diff = now.getTime() - birthday.getTime();
-    age = Math.floor(diff / 1000 / 60 / 60 / 24 / 365); 
+    age = (diff / 1000 / 60 / 60 / 24 / 365); 
     
     return age;
 };
@@ -170,7 +165,7 @@ const findPersonAge = (name) => { //Age in years
     let age;
     persons.forEach(person => {
         if (person.name.includes(name)) {
-            age = getPersonAge(person.dateOfBirth);
+            age = Math.floor(getPersonAge(person.dateOfBirth));
         }; 
     });
     console.log(`Calculate Person ${name} age:`, age);
@@ -241,14 +236,14 @@ profile object should look like:
 const createCompanyProfiles = () => {
     // merge persons and professions arrays
     let personsProfessions = persons.map((person, i) => Object.assign({}, person, professions[i]));
-    
+
     // find unique workplaces
     const workplaces = [];
     professions.forEach(person => {
         workplaces.push(person.workplace.titleCase());
     });
     const uniqueWorkplaces = [...new Set(workplaces)];   
-    
+
     // merge interests and personsProfessions arrays
     let companyProfiles = personsProfessions.map((person) => {
         let arrayOfInterest = [];
@@ -263,7 +258,7 @@ const createCompanyProfiles = () => {
         person.interests = arrayOfInterest;
         return person; 
     });        
-    
+
     // create companies object to store each company 
     let companies = {};
     // iterate through uniqueWorkplaces to create new company object on each iteration
@@ -282,12 +277,13 @@ const createCompanyProfiles = () => {
         companies[workplace].employees = employees;
     });
     console.log("Company profiles created:", companies);
-    
+
     return companies;
 };
 
-// calling all the functions required by the task
-findByFirstName("Teppo");
-findPersonAge("Teuvo Testaaja");
-calculateAverageAge();
-createCompanyProfiles();
+    // calling all the functions required by the task
+    findByFirstName("Teppo");
+    findPersonAge("Teuvo Testaaja");
+    calculateAverageAge();
+    createCompanyProfiles();
+    
